@@ -3,42 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sellers Admin Page</title>
-    <link rel="stylesheet" href="index.css">
+    <title>SellerAdmin</title>
 </head>
 <body>
     <div class="container">
+
+        <h1>Seller Admin</h1>
+
         <form id="productForm">
+            
             <label for="sellingPrice">Selling Price:</label>
-            <input type="number" id="sellingPrice">
+            <input type="number" class="form-control" id="Sellingprice" name="Sellingprice"><br><br>
         
             <label for="productName">Product Name:</label>
-            <input type="text" id="productName">
+            <input type="text" class="form-control" id="ProductName" name="ProductName"><br><br>
         
-            <label for="Category">Choose a Category:</label>
-            <select name="Category" id="Category">
-                <option value="Clothes">Clothes</option>
-                <option value="FootWear">Foot Wear</option>
-                <option value="Jewellery">Jewellery</option>
+            <label for="category">Choose a Category:</label>
+            <select class="form-control" id="category" name="category">
+                <option value="Electronic Item">Electronic Item</option>
                 <option value="Cosmetic">Cosmetic</option>
-            </select>
+                <option value="Foot Ware">Foot Ware</option>
+                <option value="Cloths">Clothes</option>
+            </select><br><br>
         
-            <button type="submit">Add Product</button>
+            <button type="submit" class="btn btn-primary">Add Product:</button><br><br>
         </form>
     </div>
     <div class="productList">
         <ul>
             <li>
-                <h4 id="Clothes">Clothes</h4>
-            </li>
-            <li>
-                <h4 id="FootWear">Foot Wear</h4>
-            </li>
-            <li>
-                <h4 id="Jewellery">Jewellery</h4>
+                <h4 id="ElectronicItem">Electronic Item</h4>
             </li>
             <li>
                 <h4 id="Cosmetic">Cosmetic</h4>
+            </li>
+            <li>
+                <h4 id="FootWare">Foot Ware</h4>
+            </li>
+            <li>
+                <h4 id="Cloths">Clothes</h4>
             </li>
         </ul>
     </div>    

@@ -1,68 +1,82 @@
-"use strict";
+'use strict';
 
 const form = document.getElementById('productForm');
-const link = 'https://crudcrud.com/api/e34ea3687df34e34aecc519f0d3974f0/AddProduct';
+const link = 'https://crudcrud.com/api/2aeb4713a20644f39cacde3a250d9065/AddProduct';
 const productList = document.querySelector('#productList');
 
 form.addEventListener('submit', addProduct);
 
-async function addProduct(event){
-    event.preventDefault();
+async function addProduct(event) {
+  event.preventDefault();
 
-    const sellingPrice = document.getElementById("").value;
-    const productName = document.getElementById("").value;
-    const category = document.getElementById("").options[selectElements.selectedIndex].value;
+  const sellingPrice = event.target.elements.Sellingprice.value;
+  const productName = event.target.elements.ProductName.value;
+  const category = event.target.elements.category.value;
 
-    const product = {
-        sellingPrice,
-        productName,
-        category,
-    }
-    localStorage.setItem(product.productName, JSON.stringify(product));
-    displayProduct(product);
+  const product = {
+    sellingPrice,
+    productName,
+    category,
+  };
 
-    try{
-        const response = axios.post(link, product);
-        displayProduct(response.data);
+  try {
+    const response = await axios.post(link, product);
+    displayProduct(response.data);
 
-        event.target.elements.sellingPrice.value = '';
-        event.target.elements.productName.value = '';
-        event.target.elements.category.value = '';
-    }
-    catch(error){
-        console.log(error)
-    }
-} 
-function displayProduct(product){
-    const dispValues = document.getElementById("formElements");
-
-    const data = document.createElement("li");
-    data.textContent = `${obj.amount} , ${obj.description} , ${obj.select}`;
-    dispValues.appendChild(data);
+    // Clear form inputs
+    event.target.elements.Sellingprice.value = '';
+    event.target.elements.ProductName.value = '';
+    event.target.elements.category.value = '';
+  } catch (error) {
+    console.error(error);
+  }
 }
 
+function displayProduct(product) {
 
-// function displayProduct(product) {
+  const s = product.sellingPrice;
+  const p = product.productName;
+  const ca = product.category;
 
-//     const s = product.sellingPrice;
-//     const p = product.productName;
-//     const ca = product.category;
+  let newItem = document.createElement('li');
+  newItem.id = "ele";
+  newItem.appendChild(document.createTextNode(`${s}, ${p}`));
+
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
   
-//     let newItem = document.createElement('li');
-//     newItem.id = "ele";
-//     newItem.appendChild(document.createTextNode(`${s}, ${p}`));
-  
-//     const deleteButton = document.createElement('button');
-//     deleteButton.textContent = 'Delete';
+  deleteButton.addEventListener('click', () => deleteProduct(product._id, newItem));
+  newItem.appendChild(deleteButton);
+
+  const categoryElement = document.getElementById(ca.replace(/ /g, '')); 
+
+  if (categoryElement) {
+    categoryElement.appendChild(newItem);
+  } 
+}
+
+async function deleteProduct(productId, listItem) {
+  try {
+    await axios.delete(`${link}/${productId}`);
+    listItem.remove();
+  } catch (error) {
+    console.error(error);
+  }
+}
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const response = await axios.get(link); // Fetch data from the API
+    const productData = response.data;
+
+    // Check if there is data to display
+    if (productData && productData.length > 0) {
     
-//     deleteButton.addEventListener('click', () => deleteProduct(product._id, newItem));
-//     newItem.appendChild(deleteButton);
-  
-//     const categoryElement = document.getElementById(ca.replace(/ /g, '')); 
-  
-//     if (categoryElement) {
-//       categoryElement.appendChild(newItem);
-//     } 
-//   }
-  
-  
+      // Display the fetched data
+      productData.forEach((product) => {
+        displayProduct(product);
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
